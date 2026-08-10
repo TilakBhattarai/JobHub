@@ -34,21 +34,22 @@ def register_view(request):
 
     if request.user.is_authenticated and request.user.role == "RECRUITER":
         return redirect("recruiter_dashboard_view")
+
     elif request.user.is_authenticated and request.user.role == "JOB_SEEKER":
-        return redirect("recruiter_dashboard_view")
+        return redirect("job_seeker_dashboard_view")
 
     if request.method == "POST":
+
         form = RegistrationForm(request.POST)
 
         if form.is_valid():
+
             otp = generate_otp()
-            request.session["registration_otp"] = otp  # save the registration otp
+
+            request.session["registration_otp"] = otp
             request.session["otp_created_at"] = timezone.now().isoformat()
-            otp_created_at = request.session.get("otp_created_at")
 
-            object_created_at = timezone.datetime.fromisoformat(otp_created_at)
-
-            request.session["pending_user"] = {  # save the user data
+            request.session["pending_user"] = {
                 "username": form.cleaned_data["username"],
                 "email": form.cleaned_data["email"],
                 "role": form.cleaned_data["role"],
@@ -56,42 +57,43 @@ def register_view(request):
                 "password2": form.cleaned_data["password2"],
             }
 
-            if timezone.now() - object_created_at > timedelta(minutes=5):
-                request.session.pop("registration_otp")
-                request.session.pop("otp_created_at")
-                request.session.pop("pending_user")
-
-                messages.error(request, "OTP has expired. Please register again.")
-                return redirect("register_view")
-
             send_mail(
                 subject="JobHub - Email Verification OTP",
                 message=dedent(f"""
-                    Hello,
+                    Hello {form.cleaned_data["username"]},
 
-                    Thank you for registering on JobHub.
+                    Welcome to JobHub!
 
-                    Your One-Time Password (OTP) for email verification is:
+                    Thank you for creating an account with us.
 
-                    {otp}
+                    To complete your registration, please verify your email
+                    address using the One-Time Password (OTP) below:
+                    
+                    {otp}        
 
                     This OTP is valid for 5 minutes.
 
                     Please do not share this OTP with anyone.
 
-                    If you did not request this verification, you can safely ignore this email.
+                    If you did not create a JobHub account, you can safely
+                    ignore this email.
 
-                    Regards,
+                    Best regards,
                     JobHub Team
+                    Connecting Talent with Opportunity
                 """).strip(),
                 from_email=os.getenv("EMAIL_HOST_USER"),
                 recipient_list=[form.cleaned_data["email"]],
                 fail_silently=False,
             )
+
+            messages.success(request, "A verification OTP has been sent to your email.")
+
             return redirect("verify_otp_view")
 
     else:
         form = RegistrationForm()
+
     return render(
         request,
         "accounts/register.html",
