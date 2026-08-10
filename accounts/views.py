@@ -14,20 +14,9 @@ from jobs.models import Job
 from application.models import Application
 from django.core.paginator import Paginator
 from jobs.models import Saved_job
-import secrets
-from django.core.mail import send_mail
-import os
-from textwrap import dedent
-from django.contrib.auth import get_user_model
-from django.utils import timezone
-from datetime import timedelta
 from .models import Company
 
 User = get_user_model()
-
-
-def generate_otp():
-    return str(secrets.randbelow(900000) + 100000)
 
 
 def register_view(request):
@@ -44,52 +33,16 @@ def register_view(request):
 
         if form.is_valid():
 
-            otp = generate_otp()
-
-            request.session["registration_otp"] = otp
-            request.session["otp_created_at"] = timezone.now().isoformat()
-
-            request.session["pending_user"] = {
-                "username": form.cleaned_data["username"],
-                "email": form.cleaned_data["email"],
-                "role": form.cleaned_data["role"],
-                "password1": form.cleaned_data["password1"],
-                "password2": form.cleaned_data["password2"],
-            }
-
-            send_mail(
-                subject="JobHub - Email Verification OTP",
-                message=dedent(f"""
-                    Hello {form.cleaned_data["username"]},
-
-                    Welcome to JobHub!
-
-                    Thank you for creating an account with us.
-
-                    To complete your registration, please verify your email
-                    address using the One-Time Password (OTP) below:
-                    
-                    {otp}        
-
-                    This OTP is valid for 5 minutes.
-
-                    Please do not share this OTP with anyone.
-
-                    If you did not create a JobHub account, you can safely
-                    ignore this email.
-
-                    Best regards,
-                    JobHub Team
-                    Connecting Talent with Opportunity
-                """).strip(),
-                from_email=os.getenv("EMAIL_HOST_USER"),
-                recipient_list=[form.cleaned_data["email"]],
-                fail_silently=False,
+            User.objects.create_user(
+                username=form.cleaned_data["username"],
+                email=form.cleaned_data["email"],
+                role=form.cleaned_data["role"],
+                password=form.cleaned_data["password1"],
             )
 
-            messages.success(request, "A verification OTP has been sent to your email.")
+            messages.success(request, "Registration successful. You can now log in.")
 
-            return redirect("verify_otp_view")
+            return redirect("login_view")
 
     else:
         form = RegistrationForm()
@@ -309,47 +262,6 @@ def job_seeker_dashboard_view(request):
             "total_saved_jobs": total_saved_jobs,
         },
     )
-
-
-def verify_otp_view(request):
-    data = request.session.get("pending_user")
-    correct_otp = request.session.get("registration_otp")
-    otp_created_at = request.session.get("otp_created_at")
-
-    if not data or not correct_otp or not otp_created_at:
-        messages.error(request, "The OTP has expired. Please register again")
-        return redirect("register_view")
-
-    created_at = timezone.datetime.fromisoformat(otp_created_at)
-
-    if timezone.now() - created_at > timedelta(minutes=5):
-        request.session.pop("registration_otp", None)
-        request.session.pop("otp_created_at", None)
-        request.session.pop("pending_user", None)
-        messages.error(request, "The OTP has expired. Please register again")
-        return redirect("register_view")
-
-    if request.method == "POST":
-        user_otp = request.POST.get("otp")
-
-        if user_otp == correct_otp:
-            request.session.pop("registration_otp", None)
-            request.session.pop("otp_created_at", None)
-            request.session.pop("pending_user", None)
-            messages.success(request, "OTP verified successfully")
-
-            user = User.objects.create_user(
-                username=data["username"],
-                email=data["email"],
-                role=data["role"],
-                password=data["password1"],
-            )
-
-            return redirect("login_view")
-        else:
-            messages.error(request, "Invalid OTP")
-
-    return render(request, "accounts/otp_registration.html")
 
 
 @login_required
