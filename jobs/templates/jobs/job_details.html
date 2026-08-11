@@ -3,168 +3,383 @@
 {% block content %}
 
 <style>
-  :root{
-    --bg:#f4f6f9;
-    --card:#ffffff;
-    --muted:#64748b;
-    --accent:#0d6efd;
-    --success:#198754;
-    --danger:#dc3545;
-    --border:#e1e6ed;
-    --radius:10px;
-    --shadow:0 2px 8px rgba(0,0,0,0.04);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+    :root {
+        --bg: #f4f6f9;
+        --card: #ffffff;
+        --muted: #64748b;
+        --accent: #0d6efd;
+        --success: #198754;
+        --danger: #dc3545;
+        --border: #e1e6ed;
+        --radius: 10px;
+        --shadow: 0 2px 8px rgba(0,0,0,0.04);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-  body { background: var(--bg); }
+    body {
+        background: var(--bg);
+    }
 
-  .container {
-    max-width: 1080px;
-    margin: 28px auto;
-    padding: 0 16px;
-  }
+    .container {
+        max-width: 1080px;
+        margin: 28px auto;
+        padding: 0 16px;
+    }
 
-  /* Top action bar */
-  .top-bar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-bottom:16px;
-  }
-  .top-left {
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .back-link {
-    color:var(--muted);
-    text-decoration:none;
-    font-weight:600;
-  }
-  .action-group {
-    display:flex;
-    gap:8px;
-    align-items:center;
-  }
-  .icon-btn {
-    border:1px solid var(--border);
-    background:var(--card);
-    padding:8px 12px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    color:var(--muted);
-  }
-  .icon-btn.primary { background:var(--accent); color:#fff; border-color:transparent; }
-  .icon-btn.save { background:var(--success); color:#fff; border-color:transparent; }
-  .icon-btn.unsave { background:var(--danger); color:#fff; border-color:transparent; }
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
 
-  /* Hero */
-  .hero {
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:20px;
-    box-shadow:var(--shadow);
-    margin-bottom:18px;
-  }
-  .hero-inner { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
-  .hero-left { min-width:0; }
-  .job-title { font-size:26px; font-weight:700; margin:0; color:#0f172a; }
-  .meta-row { display:flex; gap:12px; align-items:center; margin-top:8px; color:var(--muted); font-weight:600; font-size:14px; flex-wrap:wrap; }
-  .badge { background:#eef2ff; color:var(--accent); padding:6px 12px; border-radius:999px; font-weight:700; font-size:13px; }
-  .pill { background:#f1f5f9; color:#334155; padding:6px 10px; border-radius:999px; font-size:13px; }
+    .top-left {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
 
-  .hero-right { text-align:right; min-width:200px; }
-  .company-link { color:var(--accent); font-weight:700; text-decoration:none; }
-  .small-muted { color:var(--muted); font-size:13px; margin-top:6px; }
-  .deadline { color:var(--danger); font-size:13px; font-weight:600; margin-top:4px; }
+    .back-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+    }
 
-  /* Grid */
-  .main-grid {
-    display:grid;
-    grid-template-columns: 1fr 320px;
-    gap:20px;
-    align-items:start;
-  }
-  .card {
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:20px;
-    box-shadow:var(--shadow);
-  }
+    .action-group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
 
-  /* Left content */
-  .section-title { font-size:16px; font-weight:700; margin:0 0 10px 0; color:#0f172a; }
-  .text-body { color:var(--muted); line-height:1.6; margin-bottom:16px; }
-  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .chip { background:#e0f2fe; color:#0369a1; padding:6px 12px; border-radius:6px; font-weight:700; font-size:13px; }
+    .icon-btn {
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--muted);
+    }
 
-  /* Company sidebar */
-  .company-logo {
-    width:72px; height:72px; background:#f1f5f9; border-radius:18px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:32px;
-  }
-  .company-name { font-size:18px; font-weight:700; color:#0f172a; text-align:center; margin-bottom:4px; }
-  .company-sub { text-align:center; color:var(--muted); font-size:14px; margin-bottom:12px; }
-  .company-stats { display:flex; gap:12px; justify-content:center; margin-bottom:12px; color:var(--muted); font-weight:600; font-size:13px; flex-wrap:wrap; }
-  .company-stats .stat { display:flex; gap:6px; align-items:center; }
+    .icon-btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent;
+    }
 
-  .sidebar-actions { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
-  .btn { padding:10px 12px; border-radius:8px; font-weight:700; text-align:center; cursor:pointer; border:1px solid var(--border); background:var(--card); text-decoration:none; color:var(--muted); transition: all 0.2s ease; }
-  .btn:hover { opacity: 0.9; }
-  .btn.primary { background:var(--accent); color:#fff; border-color:transparent; }
-  .btn.outline { background:transparent; color:var(--muted); }
-  .btn.outline:hover { background: #f8fafc; border-color: var(--muted); }
-  .btn.website { background:#f8fafc; color:#0f172a; }
+    .icon-btn.save {
+        background: var(--success);
+        color: #fff;
+        border-color: transparent;
+    }
 
-  .divider { height:1px; background:var(--border); margin:18px 0; border-radius:2px; }
-  .company-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Fills the container completely */
-    transform: scale(1.7); /* Zooms the image in by 10% */
-    border-radius: 18px;
-    display: block;
-  }
+    .icon-btn.unsave {
+        background: var(--danger);
+        color: #fff;
+        border-color: transparent;
+    }
 
-  @media (max-width:900px){
-    .main-grid { grid-template-columns: 1fr; }
-    .hero-right { text-align:left; width:100%; }
-    .company-logo { margin-bottom:8px; }
-    .top-bar { flex-direction:column; align-items:flex-start; gap:8px; }
-  }
+    /* Hero */
+    .hero {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+        margin-bottom: 18px;
+    }
+
+    .hero-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .hero-left {
+        min-width: 0;
+    }
+
+    .job-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0;
+        color: #0f172a;
+    }
+
+    .meta-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 8px;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 14px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        background: #eef2ff;
+        color: var(--accent);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .pill {
+        background: #f1f5f9;
+        color: #334155;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+    }
+
+    .hero-right {
+        text-align: right;
+        min-width: 200px;
+    }
+
+    .company-link {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .small-muted {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    .deadline {
+        color: var(--danger);
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 4px;
+    }
+
+    /* Grid */
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 20px;
+        align-items: start;
+    }
+
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+    }
+
+    /* Left content */
+    .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        color: #0f172a;
+    }
+
+    .text-body {
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .chip {
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    /* Company Sidebar */
+    .company-logo {
+        width: 72px;
+        height: 72px;
+        background: #f1f5f9;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 32px;
+        overflow: hidden;
+    }
+
+    .company-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.7);
+        border-radius: 18px;
+        display: block;
+    }
+
+    .company-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    .company-sub {
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .company-stats {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 13px;
+        flex-wrap: wrap;
+    }
+
+    .company-stats .stat {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .sidebar-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 6px;
+    }
+
+    .btn {
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--card);
+        text-decoration: none;
+        color: var(--muted);
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent;
+    }
+
+    .btn.outline {
+        background: transparent;
+        color: var(--muted);
+    }
+
+    .btn.outline:hover {
+        background: #f8fafc;
+        border-color: var(--muted);
+    }
+
+    .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 18px 0;
+        border-radius: 2px;
+    }
+
+    /* Company unavailable */
+    .company-unavailable {
+        text-align: center;
+        padding: 20px 10px;
+    }
+
+    .company-unavailable-icon {
+        font-size: 42px;
+        margin-bottom: 12px;
+    }
+
+    .company-unavailable-text {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-right {
+            text-align: left;
+            width: 100%;
+        }
+
+        .company-logo {
+            margin-bottom: 8px;
+        }
+
+        .top-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+    }
 </style>
+
 
 <!-- Hero -->
 <div class="hero">
+
     <div class="hero-inner">
 
         <div class="hero-left">
 
             <h1 class="job-title">
-                {{job.title}}
+                {{ job.title }}
             </h1>
 
             <div class="meta-row">
+
                 <span class="badge">
-                    {{job.get_job_type_display}}
+                    {{ job.get_job_type_display }}
                 </span>
 
                 <span class="pill">
-                    {{job.get_experience_level_display}}
+                    {{ job.get_experience_level_display }}
                 </span>
 
                 {% if job.salary %}
-                <span class="pill">
-                    💰 {{job.salary}}
-                </span>
+                    <span class="pill">
+                        💰 {{ job.salary }}
+                    </span>
                 {% endif %}
 
                 <span class="pill">
-                    📍 {{job.location}}
+                    📍 {{ job.location }}
                 </span>
+
             </div>
 
         </div>
@@ -172,30 +387,50 @@
 
         <div class="hero-right">
 
-            <div>
-                <a href="{% url 'company_detail_view' company.pk %}" class="company-link">
-                    {{job.company_name}}
-                </a>
-            </div>
+            {% if company %}
+
+                <div>
+                    <a
+                        href="{% url 'company_detail_view' company.pk %}"
+                        class="company-link"
+                    >
+                        {{ company.name }}
+                    </a>
+                </div>
+
+            {% else %}
+
+                <div class="small-muted">
+                    Company profile not available
+                </div>
+
+            {% endif %}
+
 
             <div class="small-muted">
-                Posted {{job.created_at|timesince}} ago
+                Posted {{ job.created_at|timesince }} ago
             </div>
 
+
             {% if job.application_deadline %}
-            <div class="deadline">
-                Deadline: {{ job.application_deadline|date:"M d, Y" }}
-            </div>
+
+                <div class="deadline">
+                    Deadline:
+                    {{ job.application_deadline|date:"M d, Y" }}
+                </div>
+
             {% endif %}
 
         </div>
 
     </div>
+
 </div>
 
 
-<!-- Main grid -->
+<!-- Main Grid -->
 <div class="main-grid">
+
 
     <!-- Left Column -->
     <div class="card">
@@ -205,29 +440,36 @@
         </h3>
 
         <div class="text-body">
-            <!-- Using linebreaks to properly format the TextField content -->
             {{ job.description|linebreaks }}
         </div>
+
 
         <h3 class="section-title">
             Requirements & Responsibilities
         </h3>
 
         <div class="text-body">
-            <!-- Using linebreaks to properly format the TextField content -->
             {{ job.requirements|linebreaks }}
         </div>
 
+
         <div class="divider"></div>
 
-        {% comment %} Placeholder for any extra fields you might add later {% endcomment %}
+
         <h3 class="section-title">
             Tags / Skills
         </h3>
 
         <div class="chips">
-            <span class="chip">{{job.get_job_type_display}}</span>
-            <span class="chip">{{job.get_experience_level_display}}</span>
+
+            <span class="chip">
+                {{ job.get_job_type_display }}
+            </span>
+
+            <span class="chip">
+                {{ job.get_experience_level_display }}
+            </span>
+
         </div>
 
     </div>
@@ -236,61 +478,179 @@
     <!-- Company Sidebar -->
     <aside class="card">
 
-        <div class="sidebar-header" style="color:var(--muted); font-size:12px; font-weight:700; margin-bottom:12px; text-align:center;">
+        <div
+            class="sidebar-header"
+            style="color:var(--muted); font-size:12px; font-weight:700; margin-bottom:12px; text-align:center;"
+        >
             COMPANY PROFILE
         </div>
 
-        <div class="company-logo">
+
+        {% if company %}
+
+            <!-- Company Logo -->
+            <div class="company-logo">
+
                 {% if company.logo %}
-                <img
-                    src="{{company.logo.url}}"
-                     alt="{{ company.company_name }}"
-                >
-                {% else %}
-                     <img
-                        src="https://placehold.co/150x150?text={{ company.company_name|first|upper }}"
-                        alt="Company Logo"
+
+                    <img
+                        src="{{ company.logo.url }}"
+                        alt="{{ company.name }}"
                     >
+
+                {% else %}
+
+                    <div>
+                        🏢
+                    </div>
+
                 {% endif %}
-          </div>
 
-        <div class="company-name">
-            {{company.name}}
-        </div>
+            </div>
 
-        <div class="company-sub">
-            📍 {{company.location}}
-        </div>
 
-        <div class="sidebar-actions">
-            
-            {% if job.is_active %}
-            <a href="{% url 'application:apply_view' job.pk %}" class="btn primary">
-                Apply Now
-            </a>
-            {% else %}
-            <button class="btn outline" disabled>
-                Closed
-            </button>
+            <!-- Company Name -->
+            <div class="company-name">
+                {{ company.name }}
+            </div>
+
+
+            <!-- Company Location -->
+            {% if company.location %}
+
+                <div class="company-sub">
+                    📍 {{ company.location }}
+                </div>
+
             {% endif %}
 
-            <!-- If you pass `is_saved` boolean from the view, you can toggle this -->
-            {% if is_saved %}
-              <a href="{% url 'jobs:job_unsaved_view' job.id %}" class="btn" style="background:red;color:white;">
-                  Unsave Job
-              </a>
-            {% else %}
-            <a href="{% url 'jobs:job_saved_view' job.id %}" class="btn" style="background:#198754;color:white;">
-                Save Job
-            </a>
-            {% endif %}
 
-            <!-- Dedicated View Company Profile Button -->
-            <a href="{% url 'company_detail_view' company.pk %}" class="btn outline">
-                View Company Profile
-            </a>
-            
-        </div>
+            <!-- Sidebar Actions -->
+            <div class="sidebar-actions">
+
+                {% if job.is_active %}
+
+                    <a
+                        href="{% url 'application:apply_view' job.pk %}"
+                        class="btn primary"
+                    >
+                        Apply Now
+                    </a>
+
+                {% else %}
+
+                    <button
+                        class="btn outline"
+                        disabled
+                    >
+                        Closed
+                    </button>
+
+                {% endif %}
+
+
+                {% if is_saved %}
+
+                    <a
+                        href="{% url 'jobs:job_unsaved_view' job.id %}"
+                        class="btn"
+                        style="background:red;color:white;"
+                    >
+                        Unsave Job
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'jobs:job_saved_view' job.id %}"
+                        class="btn"
+                        style="background:#198754;color:white;"
+                    >
+                        Save Job
+                    </a>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'company_detail_view' company.pk %}"
+                    class="btn outline"
+                >
+                    View Company Profile
+                </a>
+
+            </div>
+
+
+        {% else %}
+
+            <!-- Company Doesn't Exist -->
+            <div class="company-unavailable">
+
+                <div class="company-unavailable-icon">
+                    🏢
+                </div>
+
+                <div class="company-name">
+                    Company information unavailable
+                </div>
+
+                <div class="company-unavailable-text">
+                    This recruiter hasn't created a company profile yet.
+                </div>
+
+            </div>
+
+
+            <!-- Job Actions -->
+            <div class="sidebar-actions">
+
+                {% if job.is_active %}
+
+                    <a
+                        href="{% url 'application:apply_view' job.pk %}"
+                        class="btn primary"
+                    >
+                        Apply Now
+                    </a>
+
+                {% else %}
+
+                    <button
+                        class="btn outline"
+                        disabled
+                    >
+                        Closed
+                    </button>
+
+                {% endif %}
+
+
+                {% if is_saved %}
+
+                    <a
+                        href="{% url 'jobs:job_unsaved_view' job.id %}"
+                        class="btn"
+                        style="background:red;color:white;"
+                    >
+                        Unsave Job
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'jobs:job_saved_view' job.id %}"
+                        class="btn"
+                        style="background:#198754;color:white;"
+                    >
+                        Save Job
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
 
     </aside>
 

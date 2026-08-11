@@ -99,7 +99,7 @@ def job_detail_view(request, pk):
         job=job,
     ).exists()
 
-    company = job.recruiter.company
+    company = getattr(job.recruiter, 'company', None)
     requirements = job.requirements.split("\n")
 
     return render(

@@ -5,202 +5,765 @@
 {% block content %}
 
 <style>
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:Arial, Helvetica, sans-serif;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
-    body{
-        background:#f4f6f9;
+    body {
+        background: #f5f7fb;
     }
 
-    .container{
-        max-width:900px;
-        margin:40px auto;
-        padding:20px;
+    .profile-container {
+        max-width: 1000px;
+        margin: 35px auto;
+        padding: 20px;
     }
 
-    .profile-card{
-        background:#fff;
-        border-radius:12px;
+    /* ================= HEADER ================= */
+
+    .profile-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    }
+
+    .profile-cover {
+        height: 170px;
+        background: linear-gradient(135deg, #0d6efd, #084298);
+        position: relative;
+    }
+
+    .profile-header {
+        position: relative;
+        padding: 0 35px 30px;
+        text-align: center;
+    }
+
+    .profile-image-wrapper {
+        position: relative;
+        width: 145px;
+        height: 145px;
+        margin: -75px auto 15px;
+    }
+
+    .profile-image {
+        width: 145px;
+        height: 145px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #fff;
+        border: 6px solid #fff;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .default-avatar {
+        width: 145px;
+        height: 145px;
+        border-radius: 50%;
+        background: #fff;
+        border: 6px solid #fff;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 55px;
+    }
+
+    .profile-header h1 {
+        font-size: 30px;
+        color: #222;
+        margin-bottom: 8px;
+    }
+
+    .profile-email {
+        color: #6c757d;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+
+    .role-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 30px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    /* ================= BODY ================= */
+
+    .profile-body {
+        padding: 35px;
+    }
+
+    .section {
+        margin-bottom: 35px;
+        margin-top: 35px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 21px;
+        color: #222;
+        margin-bottom: 20px;
+    }
+
+    .section-title span {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: #e9f2ff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 18px;
+    }
+
+    /* ================= INFORMATION GRID ================= */
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .info-box {
+        padding: 18px;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        background: #fafbfc;
+        transition: 0.25s;
+    }
+
+    .info-box:hover {
+        border-color: #cfe2ff;
+        transform: translateY(-2px);
+    }
+
+    .info-label {
+        font-size: 13px;
+        color: #6c757d;
+        margin-bottom: 7px;
+        font-weight: bold;
+    }
+
+    .info-value {
+        font-size: 15px;
+        color: #333;
+        word-break: break-word;
+    }
+
+    /* ================= BIO ================= */
+
+    .bio-box {
+        padding: 20px;
+        border-radius: 12px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        color: #555;
+        line-height: 1.7;
+    }
+
+    /* ================= SKILLS ================= */
+
+    .skills-box {
+        padding: 20px;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        background: #fafbfc;
+    }
+
+    .skills-text {
+        color: #555;
+        line-height: 1.7;
+    }
+
+    /* ================= COMPANY ================= */
+
+    .company-section {
+        border: 1px solid #dce7f7;
+        border-radius: 15px;
+        padding: 25px;
+        background: linear-gradient(135deg, #f8fbff, #ffffff);
+    }
+
+    .company-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 22px;
+    }
+
+    .company-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .company-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: #e9f2ff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;
+    }
+
+    .company-logo{
+        width:100px;
+        height:100px;
+        border-radius:15px;
         overflow:hidden;
-        box-shadow:0 10px 25px rgba(0,0,0,.08);
+        flex-shrink:0;
+        background:#e5e7eb;
     }
 
-    .profile-header{
-        background:linear-gradient(135deg,#0d6efd,#0b5ed7);
-        color:#fff;
-        text-align:center;
-        padding:35px 20px;
+    .company-logo img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        display:block;
     }
 
-    .profile-image{
-        width:140px;
-        height:140px;
-        border-radius:50%;
-        background:#fff;
-        color:#0d6efd;
-        font-size:55px;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        margin:0 auto 20px;
-        border:5px solid rgba(255,255,255,.4);
+    .company-title h3 {
+        font-size: 21px;
+        color: #222;
     }
 
-    .profile-header h2{
-        margin-bottom:8px;
-        font-size:30px;
+    .company-title p {
+        margin-top: 3px;
+        font-size: 13px;
+        color: #777;
     }
 
-    .profile-header p{
-        font-size:16px;
-        opacity:.9;
+    .company-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
-    .profile-body{
-        padding:35px;
+    .company-info-box {
+        padding: 16px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid #e9ecef;
     }
 
-    .profile-info{
-        display:grid;
-        grid-template-columns:180px 1fr;
-        padding:16px 0;
-        border-bottom:1px solid #eee;
+    .company-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
     }
 
-    .profile-info:last-child{
-        border-bottom:none;
+    /* ================= BUTTONS ================= */
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+        padding-top: 25px;
+        border-top: 1px solid #eee;
     }
 
-    .label{
-        font-weight:bold;
-        color:#333;
+    .btn {
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.25s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
     }
 
-    .value{
-        color:#555;
-        line-height:1.6;
+    .edit-btn {
+        background: #198754;
+        color: white;
     }
 
-    .buttons{
-        margin-top:35px;
-        display:flex;
-        gap:15px;
+    .edit-btn:hover {
+        background: #157347;
     }
 
-    .btn{
-        text-decoration:none;
-        padding:12px 22px;
-        border-radius:8px;
-        font-weight:bold;
-        transition:.3s;
+    .dashboard-btn {
+        background: #6c757d;
+        color: white;
     }
 
-    .edit-btn{
-        background:#198754;
-        color:white;
+    .dashboard-btn:hover {
+        background: #565e64;
     }
 
-    .edit-btn:hover{
-        background:#157347;
+    .company-edit-btn {
+        background: #0d6efd;
+        color: white;
     }
 
-    .dashboard-btn{
-        background:#6c757d;
-        color:white;
+    .company-edit-btn:hover {
+        background: #0b5ed7;
     }
 
-    .dashboard-btn:hover{
-        background:#565e64;
+    .create-company-btn {
+        background: #0d6efd;
+        color: white;
     }
 
-    @media(max-width:700px){
+    .create-company-btn:hover {
+        background: #0b5ed7;
+    }
 
-        .profile-info{
-            grid-template-columns:1fr;
-            gap:8px;
+    /* ================= EMPTY COMPANY ================= */
+
+    .empty-company {
+        text-align: center;
+        padding: 25px 10px;
+    }
+
+    .empty-company-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .empty-company h4 {
+        color: #333;
+        margin-bottom: 7px;
+    }
+
+    .empty-company p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 700px) {
+
+        .profile-container {
+            margin: 15px auto;
+            padding: 10px;
         }
 
-        .buttons{
-            flex-direction:column;
+        .profile-cover {
+            height: 130px;
         }
 
-    }
+        .profile-header {
+            padding: 0 20px 25px;
+        }
 
+        .profile-image-wrapper {
+            width: 120px;
+            height: 120px;
+            margin-top: -60px;
+        }
+
+        .profile-image,
+        .default-avatar {
+            width: 120px;
+            height: 120px;
+        }
+
+        .profile-header h1 {
+            font-size: 24px;
+        }
+
+        .profile-body {
+            padding: 22px;
+        }
+
+        .info-grid,
+        .company-info {
+            grid-template-columns: 1fr;
+        }
+
+        .company-top {
+            align-items: flex-start;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .company-actions {
+            flex-direction: column;
+        }
+    }
 </style>
 
-<div class="container">
+
+<div class="profile-container">
 
     <div class="profile-card">
 
-        <div class="profile-header">
-            {% if profile.profile_picture  %}
-                <img class="profile-image" src="{{profile.profile_picture.url }}" alt="profile_picture">
-            {% else %}
-                <div class="profile-image">
-                    👤
-                </div>
-            {% endif %}
-            
-            <h2>{{request.user.username}}</h2>
+        <!-- COVER -->
+        <div class="profile-cover"></div>
 
-            {% comment %} <p>Python & Django Backend Developer</p> {% endcomment %}
+
+        <!-- PROFILE HEADER -->
+        <div class="profile-header">
+
+            <div class="profile-image-wrapper">
+
+                {% if profile.profile_picture %}
+
+                    <img
+                        src="{{ profile.profile_picture.url }}"
+                        alt="Profile Picture"
+                        class="profile-image"
+                    >
+
+                {% else %}
+
+                    <div class="default-avatar">
+                        👤
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <h1>{{ request.user.username }}</h1>
+
+            <div class="profile-email">
+                {{ request.user.email }}
+            </div>
+
+
+            {% if request.user.role == "RECRUITER" %}
+
+                <span class="role-badge">
+                    🏢 Recruiter
+                </span>
+
+            {% else %}
+
+                <span class="role-badge">
+                    💼 Job Seeker
+                </span>
+
+            {% endif %}
 
         </div>
 
+
+        <!-- BODY -->
         <div class="profile-body">
 
-            <div class="profile-info">
-                <div class="label">Username</div>
-                <div class="value">{{request.user.username}}</div>
-            </div>
 
-            <div class="profile-info">
-                <div class="label">Email</div>
-                <div class="value">{{request.user.email}}</div>
-            </div>
+            <!-- PERSONAL INFORMATION -->
+            <div class="section">
 
-            <div class="profile-info">
-                <div class="label">Phone</div>
-                <div class="value">{{profile.phone|default:"Not provided"}}</div>
-            </div>
-
-            <div class="profile-info">
-                <div class="label">Address</div>
-                <div class="value">{{profile.address|default:"Not provided"}}</div>
-            </div>
-            {% if profile.user.role == 'JOB_SEEKER'%}
-            <div class="profile-info">
-                <div class="label">Skills</div>
-                <div class="value">
-                    {{profile.skills|default:"Not provided"}}
+                <div class="section-title">
+                    <span>👤</span>
+                    Personal Information
                 </div>
+
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Username
+                        </div>
+
+                        <div class="info-value">
+                            {{ request.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Email
+                        </div>
+
+                        <div class="info-value">
+                            {{ request.user.email }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Phone
+                        </div>
+
+                        <div class="info-value">
+                            {{ profile.phone|default:"Not provided" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Address
+                        </div>
+
+                        <div class="info-value">
+                            {{ profile.address|default:"Not provided" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Member Since
+                        </div>
+
+                        <div class="info-value">
+                            {{ profile.created|date:"F d, Y" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+
+            <!-- SKILLS -->
+            {% if request.user.role == "JOB_SEEKER" %}
+
+                <div class="section">
+
+                    <div class="section-title">
+                        <span>🛠️</span>
+                        Skills
+                    </div>
+
+
+                    <div class="skills-box">
+
+                        <div class="skills-text">
+                            {{ profile.skills|default:"No skills added yet." }}
+                        </div>
+
+                    </div>
+
+                </div>
+
             {% endif %}
 
-            <div class="profile-info">
-                <div class="label">Bio</div>
-                <div class="value">
-                    {{profile.bio|default:"Not provided"}}
+
+            <!-- BIO -->
+            <div class="section">
+
+                <div class="section-title">
+                    <span>📝</span>
+                    About Me
                 </div>
+
+
+                <div class="bio-box">
+
+                    {{ profile.bio|default:"No bio added yet." }}
+
+                </div>
+
             </div>
 
-            <div class="profile-info">
-                <div class="label">Member Since</div>
-                <div class="value">{{profile.created|date:"F d, Y" }}</div>
-            </div>
+                        <!-- ACTIONS -->
 
-            <div class="buttons">
-                <a href="{% url 'edit_profile_view' %}" class="btn edit-btn">Edit Profile</a>
+            <div class="actions">
+
+                <a
+                    href="{% url 'edit_profile_view' %}"
+                    class="btn edit-btn"
+                >
+                    ✏️ Edit Profile
+                </a>
+
+
                 {% if request.user.role == "RECRUITER" %}
-                <a href="{% url 'recruiter_dashboard_view' %}" class="btn dashboard-btn">Back to Dashboard</a>
+
+                    <a
+                        href="{% url 'recruiter_dashboard_view' %}"
+                        class="btn dashboard-btn"
+                    >
+                        ← Back to Dashboard
+                    </a>
+
                 {% else %}
-                <a href="{% url 'job_seeker_dashboard_view' %}" class="btn dashboard-btn">Back to Dashboard</a>
+
+                    <a
+                        href="{% url 'job_seeker_dashboard_view' %}"
+                        class="btn dashboard-btn"
+                    >
+                        ← Back to Dashboard
+                    </a>
+
                 {% endif %}
+
             </div>
+
+
+            <!-- COMPANY PROFILE -->
+            {% if request.user.role == "RECRUITER" %}
+
+                <div class="section">
+
+                    <div class="section-title">
+                        <span>🏢</span>
+                        Company Profile
+                    </div>
+
+
+                    <div class="company-section">
+
+                        {% if company %}
+
+                            <div class="company-top">
+
+                                <div class="company-title">
+
+                                    <div class="company-logo">
+                                        {% if company.logo %}
+                                        <img
+                                            src="{{company.logo.url}}"
+                                            alt="{{ company.company_name }}"
+                                        >
+                                        {% else %}
+                                            <img
+                                                src="https://placehold.co/150x150?text={{ company.company_name|first|upper }}"
+                                                alt="Company Logo"
+                                            >
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div>
+
+                                        <h3>
+                                            {{ company.name }}
+                                        </h3>
+
+                                        <p>
+                                            Recruiter Company Profile
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="company-info">
+
+                                <div class="company-info-box">
+
+                                    <div class="info-label">
+                                        Company Name
+                                    </div>
+
+                                    <div class="info-value">
+                                        {{ company.name }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="company-info-box">
+
+                                    <div class="info-label">
+                                        Location
+                                    </div>
+
+                                    <div class="info-value">
+                                        {{ company.location }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="company-actions">
+                                <a 
+                                    href="{% url 'company_detail_view' company.pk %}" class="btn view-company-btn" > 
+                                     View Company Profile 
+                                </a>
+
+                                <a
+                                    href="{% url 'edit_company_view' %}"
+                                    class="btn company-edit-btn"
+                                >
+                                    ✏️ Edit Company
+                                </a>
+
+                            </div>
+
+
+                        {% else %}
+
+
+                            <div class="empty-company">
+
+                                <div class="empty-company-icon">
+                                    🏢
+                                </div>
+
+                                <h4>
+                                    No Company Profile Yet
+                                </h4>
+
+                                <p>
+                                    Create your company profile to showcase
+                                    your organization to job seekers.
+                                </p>
+
+
+                                <a
+                                    href="{% url 'create_company_view' %}"
+                                    class="btn create-company-btn"
+                                >
+                                    + Create Company
+                                </a>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
 
         </div>
 
@@ -209,3 +772,4 @@
 </div>
 
 {% endblock %}
+```

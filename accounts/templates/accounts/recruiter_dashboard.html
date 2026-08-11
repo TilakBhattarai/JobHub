@@ -1008,6 +1008,55 @@ body{
                 </a>
 
             </div>
+            <div class="col-lg-3 col-md-6">
+
+            {% if company %}
+
+                <!-- Company already exists -->
+                <a href="{% url 'company_detail_view' company.pk %}"
+                   class="action-card">
+
+                    <div class="action-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <div class="action-content">
+
+                        <h5>Company Profile</h5>
+
+                        <p>
+                            View and manage your company.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            {% else %}
+
+                <!-- Company doesn't exist -->
+                <a href="{% url 'create_company_view' %}"
+                   class="action-card">
+
+                    <div class="action-icon">
+                        <i class="bi bi-building-add"></i>
+                    </div>
+
+                    <div class="action-content">
+
+                        <h5>Create Company</h5>
+
+                        <p>
+                            Create your company profile.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            {% endif %}
+
+        </div>
 
             <div class="col-lg-4">
 

@@ -87,15 +87,18 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
+    company = None
     if request.user.role == "JOB_SEEKER":
         profile = request.user.profile
     elif request.user.role == "RECRUITER":
         profile = request.user.recruiterprofile
+        company = getattr(request.user, "company", None)
     return render(
         request,
         "accounts/profile.html",
         {
             "profile": profile,
+            "company": company,
         },
     )
 
@@ -270,7 +273,7 @@ def create_company_view(request):
         messages.error(request, "Only the recruiter can create the company")
         return redirect("job_seeker_dashboard_view")
 
-    if hasattr(request.user, "company"):
+    if hasattr(request.user, "Company"):
         messages.info(
             request, "You already have a company profile. You can edit it here."
         )

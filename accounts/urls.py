@@ -18,7 +18,6 @@ urlpatterns = [
     path("profile/", profile_view, name="profile_view"),
     path("edit-profile/", edit_profile_view, name="edit_profile_view"),
     path("company/create/", create_company_view, name="create_company_view"),
-    path("company/create/", create_company_view, name="create_company_view"),
     path("company/edit/", edit_company_view, name="edit_company_view"),
     path("company/<int:pk>/", company_detail_view, name="company_detail_view"),
 ]
