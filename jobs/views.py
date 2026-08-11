@@ -8,7 +8,6 @@ from application.models import Application
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .models import Saved_job
-from accounts.models import Company
 
 
 @login_required
