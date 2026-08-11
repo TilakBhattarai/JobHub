@@ -525,10 +525,12 @@
             {% endif %}
 
 
+
             <!-- Sidebar Actions -->
             <div class="sidebar-actions">
+                {% if request.user.role == 'JOB_SEEKER' %}
 
-                {% if job.is_active %}
+                {% if not job.is_expired %}
 
                     <a
                         href="{% url 'application:apply_view' job.pk %}"
@@ -547,8 +549,6 @@
                     </button>
 
                 {% endif %}
-
-
                 {% if is_saved %}
 
                     <a
@@ -568,7 +568,6 @@
                     >
                         Save Job
                     </a>
-
                 {% endif %}
 
 
@@ -578,7 +577,7 @@
                 >
                     View Company Profile
                 </a>
-
+            {% endif %}
             </div>
 
 
@@ -605,7 +604,7 @@
             <!-- Job Actions -->
             <div class="sidebar-actions">
 
-                {% if job.is_active %}
+                {% if not job.is_expired %}
 
                     <a
                         href="{% url 'application:apply_view' job.pk %}"

@@ -876,11 +876,13 @@
                             <a href="{% url 'jobs:job_detail_view' job.pk %}" class="btn btn-outline-primary">
                                 View
                             </a>
-
+                            
+                            {% if not job.is_expired %}
                             {% if job.pk not in applied_job_ids %}
                             <a href="{% url 'application:apply_view' job.pk %}" class="btn btn-primary">
                                 Apply
                             </a>
+                            {% endif %}
                             {% endif %}
                         </div>
                     </div>

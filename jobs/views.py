@@ -8,6 +8,7 @@ from application.models import Application
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .models import Saved_job
+from .models import Job
 
 
 @login_required
@@ -99,7 +100,7 @@ def job_detail_view(request, pk):
         job=job,
     ).exists()
 
-    company = getattr(job.recruiter, 'company', None)
+    company = getattr(job.recruiter, "company", None)
     requirements = job.requirements.split("\n")
 
     return render(

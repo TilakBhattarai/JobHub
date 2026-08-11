@@ -15,6 +15,7 @@ from application.models import Application
 from django.core.paginator import Paginator
 from jobs.models import Saved_job
 from .models import Company
+from django.utils import timezone
 
 User = get_user_model()
 
