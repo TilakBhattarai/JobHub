@@ -254,7 +254,7 @@ def job_saved_list(request):
         },
     )
 
-
+@login_required
 def job_analytics_view(request, pk):
 
     if request.user.role != "RECRUITER":
