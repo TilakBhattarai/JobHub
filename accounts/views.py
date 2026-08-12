@@ -159,11 +159,19 @@ def recruiter_dashboard_view(request):
         recruiter=request.user,
     ).count()
 
-    active_jobs = Job.objects.filter(recruiter=request.user, is_active=True).count()
+    active_jobs = Job.objects.filter(
+        recruiter=request.user,
+        is_active=True,
+        application_deadline__gte=timezone.datetime.now(),
+    ).count()
     total_applicants = Application.objects.filter(job__recruiter=request.user).count()
 
     accepted_candidates = Application.objects.filter(
         status="ACCEPTED", job__recruiter=request.user
+    ).count()
+
+    pending_candidates = Application.objects.filter(
+        status="PENDING", job__recruiter=request.user
     ).count()
 
     rejected_candidates = Application.objects.filter(
@@ -190,6 +198,7 @@ def recruiter_dashboard_view(request):
             "jobs": jobs,
             "accepted_candidates": accepted_candidates,
             "rejected_candidates": rejected_candidates,
+            "pending_candidates": pending_candidates,
         },
     )
 
@@ -206,7 +215,9 @@ def job_seeker_dashboard_view(request):
     available_jobs = Job.objects.filter(is_active=True).count()
 
     # Use a queryset (no slice) and paginate it
-    jobs_qs = Job.objects.filter(is_active=True).order_by("-created_at")
+    jobs_qs = Job.objects.filter(
+        is_active=True, application_deadline__gte=timezone.now().date()
+    ).order_by("-created_at")
 
     total_applied_jobs = Application.objects.filter(applicant=request.user).count()
     total_pending_jobs = Application.objects.filter(

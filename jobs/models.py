@@ -81,3 +81,33 @@ class Saved_job(models.Model):
 
     def __str__(self):
         return f"{self.user.username} saved {self.job.title}"
+
+
+class JobView(models.Model):
+
+    job = models.ForeignKey(
+        Job,
+        on_delete=models.CASCADE,
+        related_name="views",
+    )
+
+    viewer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="job_views",
+    )
+
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["job", "viewer"],
+                name="unique_job_viewer",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.viewer.username} viewed job {self.job.title}"

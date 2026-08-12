@@ -8,7 +8,7 @@ from application.models import Application
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .models import Saved_job
-from .models import Job
+from .models import Job, JobView
 
 
 @login_required
@@ -90,7 +90,7 @@ def job_list_view(request):
 @login_required
 def job_detail_view(request, pk):
     job = get_object_or_404(Job, pk=pk)
-    applied = Application.objects.filter(
+    is_applied = Application.objects.filter(
         applicant=request.user,
         job=job,
     ).exists()
@@ -103,13 +103,21 @@ def job_detail_view(request, pk):
     company = getattr(job.recruiter, "company", None)
     requirements = job.requirements.split("\n")
 
+    if request.user != job.recruiter:
+        has_viewed = JobView.objects.filter(job=job, viewer=request.user).exists()
+        if not has_viewed:
+            JobView.objects.create(
+                job=job,
+                viewer=request.user,
+            )
+
     return render(
         request,
         "jobs/job_details.html",
         {
             "job": job,
             "company": company,
-            "applied": applied,
+            "is_applied": is_applied,
             "is_saved": is_saved,
             "requirements": requirements,
         },
@@ -120,7 +128,7 @@ def job_detail_view(request, pk):
 def my_job_view(request):
     jobs = Job.objects.filter(
         recruiter=request.user,
-    )
+    ).order_by("-created_at")
 
     paginator = Paginator(jobs, 8)
     page_number = request.GET.get("page")
@@ -243,5 +251,60 @@ def job_saved_list(request):
         "jobs/saved_job.html",
         {
             "saved_jobs": saved_jobs,
+        },
+    )
+
+
+def job_analytics_view(request, pk):
+
+    if request.user.role != "RECRUITER":
+        messages.error(
+            request,
+            "Access denied. Job performance analytics are available only to recruiters.",
+        )
+        return redirect("job_seeker_dashboard_view")
+
+    job = get_object_or_404(
+        Job,
+        pk=pk,
+        recruiter=request.user,
+    )
+    applications = job.applications.all()
+    application_count = applications.count()
+    saved_job_count = Saved_job.objects.filter(job=job).count()
+    job_view_count = job.views.count()
+    status_pending_count = applications.filter(status="PENDING").count()
+    status_accepted_count = applications.filter(status="ACCEPTED").count()
+    status_rejected_count = applications.filter(status="REJECTED").count()
+
+    if application_count > 0:
+        pending_progress_width = (status_pending_count / application_count) * 100
+        accepted_progress_width = (status_accepted_count / application_count) * 100
+        rejected_progress_width = (status_rejected_count / application_count) * 100
+    else:
+        pending_progress_width = 0
+        accepted_progress_width = 0
+        rejected_progress_width = 0
+
+    if job_view_count > 0:
+        apply_rate = (application_count / job_view_count) * 100
+    else:
+        apply_rate = 0
+    return render(
+        request,
+        "jobs/job_analytics.html",
+        {
+            "job": job,
+            "application_count": application_count,
+            "applications": applications,
+            "saved_job_count": saved_job_count,
+            "job_view_count": job_view_count,
+            "apply_rate": apply_rate,
+            "status_pending_count": status_pending_count,
+            "status_accepted_count": status_accepted_count,
+            "status_rejected_count": status_rejected_count,
+            "pending_progress_width": pending_progress_width,
+            "accepted_progress_width": accepted_progress_width,
+            "rejected_progress_width": rejected_progress_width,
         },
     )

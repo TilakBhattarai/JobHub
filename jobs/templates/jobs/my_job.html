@@ -153,6 +153,23 @@
         margin: 0 auto;
         line-height: 1.6;
     }
+    .btn-applicants {
+        background: #198754;
+    }
+
+    .btn-applicants:hover {
+        background: #157347;
+        color: white;
+    }
+
+    .btn-analytics {
+        background: #6f42c1;
+    }
+
+    .btn-analytics:hover {
+        background: #59339d;
+        color: white;
+    }
 
 
     @media(max-width:768px){
@@ -241,6 +258,10 @@
                 </a>
                 <a href="{% url 'application:job_application_view' job.pk %}" class="btn btn-applicants">
                     Applicants
+                </a>
+
+                <a href="{% url 'jobs:job_analytics_view' job.pk %}" class="btn btn-analytics">
+                    📊 Analytics
                 </a>
 
             </div>

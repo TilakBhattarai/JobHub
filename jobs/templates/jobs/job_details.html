@@ -529,6 +529,7 @@
             <!-- Sidebar Actions -->
             <div class="sidebar-actions">
                 {% if request.user.role == 'JOB_SEEKER' %}
+                {% if not is_applied %}
 
                 {% if not job.is_expired %}
 
@@ -540,6 +541,7 @@
                     </a>
 
                 {% else %}
+               
 
                     <button
                         class="btn outline"
@@ -549,6 +551,7 @@
                     </button>
 
                 {% endif %}
+                 {% endif %}
                 {% if is_saved %}
 
                     <a
