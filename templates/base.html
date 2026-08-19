@@ -107,6 +107,52 @@
         }
 
         /* ==========================
+                NOTIFICATION BELL
+        ========================== */
+
+        .notif-btn{
+            position:relative;
+            background:none;
+            border:none;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:6px;
+            border-radius:50%;
+            transition:.3s;
+        }
+
+        .notif-btn:hover{
+            background:rgba(255,255,255,.15);
+        }
+
+        .notif-btn svg{
+            width:24px;
+            height:24px;
+            stroke:#fff;
+            fill:none;
+        }
+
+        .notif-badge{
+            position:absolute;
+            top:2px;
+            right:2px;
+            background:#ef4444;
+            color:#fff;
+            font-size:10px;
+            font-weight:bold;
+            min-width:16px;
+            height:16px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:0 3px;
+            line-height:1;
+        }
+
+        /* ==========================
                 MOBILE
         ========================== */
 
@@ -172,6 +218,35 @@
     <ul id="nav-menu">
 
         {% if user.is_authenticated %}
+        {% if request.user.role == 'RECRUITER'%}
+
+            <li>
+                <a href="{% url 'recruiter_notification_view'%}" class="notif-btn" title="Notifications">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    {% if unread_notification_count > 0 %}
+                        <span class="notif-badge">{{unread_notification_count}}</span>
+                    {% endif %}
+                    
+                </a>
+            </li>
+            
+            {% else %}
+
+            <li>
+                <a href="{% url 'candidate_notification_view'%}" class="notif-btn" title="Notifications">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    {% if unread_notification_count > 0 %}
+                        <span class="notif-badge">{{unread_notification_count}}</span>
+                    {% endif %}
+                </a>
+            </li>
+            {% endif %}
 
             {% if user.role == "RECRUITER" %}
 
@@ -200,10 +275,6 @@
                         Dashboard
                     </a>
                 </li>
-
-            {% endif %}
-
-            {% if user.role == "JOB_SEEKER" %}
 
                 <li>
                     <a href="{% url 'jobs:job_list_view' %}">
@@ -274,6 +345,7 @@
 <main>
 
     {% block content %}
+
     {% endblock %}
 
 </main>

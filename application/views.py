@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Application
 from django.http import HttpResponseForbidden
+from notifications.models import Notification
 
 
 @login_required
@@ -33,6 +34,14 @@ def apply_view(request, pk):
             application.applicant = request.user
             application.job = job
             application.save()
+
+            Notification.objects.create(
+                recipient=job.recruiter,
+                application=application,
+                notification_type="NEW_APPLICATION",
+                message=f"New Application! {request.user.username} has applied for {job.title}. Review their application and resume.",
+            )
+
             messages.success(request, "Successfully applied for the job")
             return redirect("jobs:job_detail_view", pk=job.pk)
         else:
@@ -108,6 +117,7 @@ def my_applications(request):
 
 @login_required
 def accept_application(request, pk):
+    job = get_object_or_404(Job, pk=pk)
     application = get_object_or_404(Application, pk=pk)
 
     if application.job.recruiter != request.user:
@@ -115,6 +125,13 @@ def accept_application(request, pk):
 
     application.status = "ACCEPTED"
     application.save()
+
+    Notification.objects.create(
+        recipient=application.applicant,
+        application=application,
+        notification_type="APPLICATION_STATUS_CHANGE",
+        message=f"Congratulations! Your application for {job.title} has been accepted. The recruiter will contact you soon regarding next steps.",
+    )
 
     return redirect("recruiter_dashboard_view")
 

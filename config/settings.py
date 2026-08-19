@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "accounts",
     "jobs",
     "application",
+    "notifications",
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "notifications.context_processors.notification_count",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
