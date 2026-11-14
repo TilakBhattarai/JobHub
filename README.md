@@ -281,8 +281,8 @@ During this project, I gained hands-on experience with:
 
 **Tilak Bhattarai**
 
-* GitHub: https://github.com/BIwashbhatarai
-* LinkedIn: https://www.linkedin.com/in/biwash-bhattarai/
+* GitHub: https://github.com/TilakBhattarai
+* LinkedIn: https://www.linkedin.com/in/tilakbhattarai/
 
 ---
 
