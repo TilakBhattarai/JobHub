@@ -279,7 +279,7 @@ During this project, I gained hands-on experience with:
 
 ## 👨‍💻 Author
 
-**Biwash Bhattarai**
+**Tilak Bhattarai**
 
 * GitHub: https://github.com/BIwashbhatarai
 * LinkedIn: https://www.linkedin.com/in/biwash-bhattarai/
